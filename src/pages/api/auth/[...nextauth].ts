@@ -19,12 +19,30 @@ export default NextAuth({
 
       try {
         await fauna.query(
-          faunaQuery.Create(faunaQuery.Collection("users"), { data: { email } })
+          faunaQuery.If(
+            faunaQuery.Not(
+              faunaQuery.Exists(
+                faunaQuery.Match(
+                  faunaQuery.Index('user_by_email'),
+                  faunaQuery.Casefold(user?.email)
+                )
+              )
+            ),
+            faunaQuery.Create(
+              faunaQuery.Collection("users"), 
+              { data: { email } }),
+              faunaQuery.Get(
+                faunaQuery.Match(
+                  faunaQuery.Index('user_by_email'),
+                  faunaQuery.Casefold(user?.email)
+                )
+              )
+          )
         );
-  
+
         return true;
       } catch {
-        return false
+        return false;
       }
     },
   },
