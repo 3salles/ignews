@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@next-auth/fauna-adapter": "^1.0.2",
+    "@stripe/stripe-js": "^1.26.0",
+    "axios": "^0.26.1",
     "faunadb": "^4.5.2",
     "next": "11.1.2",
     "next-auth": "^4.2.1",
